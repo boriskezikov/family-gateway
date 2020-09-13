@@ -5,7 +5,7 @@ zuul:
       url: https://family-auth.herokuapp.com/auth
     core:
       path: /exemption/**
-      url: https://family-core-service.herokuapp.com/core
+      url: https://family-exemption-service.herokuapp.com/core
 
 
   host:
