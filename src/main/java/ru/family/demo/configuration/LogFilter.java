@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import ru.family.demo.services.AuthUtilsService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -44,6 +46,11 @@ public class LogFilter extends ZuulFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+        HttpServletResponse response = ctx.getResponse();
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, DELETE, PUT");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, "3600");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "*");
         ctx.addZuulRequestHeader("X-FAMILY-APP-ID", "FAMILY");
         LOG.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
@@ -61,7 +68,6 @@ public class LogFilter extends ZuulFilter {
         LOG.info(String.format(">> End request: %s", request.getMethod()));
         LOG.info("-------------------------------------------------------------------------------------------");
         return null;
-
     }
 }
 
