@@ -1,0 +1,39 @@
+zuul:
+  routes:
+    auth:
+      path: /auth/**
+      url: https://family-auth.herokuapp.com/auth
+    core:
+      path: /exemption/**
+      url: https://family-core-service.herokuapp.com/core
+
+
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    semaphore:
+      max-semaphores: 500
+#    sensitive-headers: true
+
+jwt:
+  secret: family
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  eureka:
+    enabled: false
+
+
+server:
+  port: 8999
